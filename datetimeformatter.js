@@ -6,7 +6,7 @@ $.fn.formatTime = function () {
     var isAM = false;
     var isPM = false;
     var index = 0;
-    var formatted_time = "";
+    var formatted_time = time;
     var minutes, hours;
 
     if (time.indexOf("A") > -1 && time.indexOf("M") > -1) {
@@ -29,14 +29,20 @@ $.fn.formatTime = function () {
         else if (formatted_time.length === 3) {
             hours = Number(formatted_time.substring(0, 1));
             minutes = Number(formatted_time.substring(1));
-            if ((hours >= 1 && hours <= 9) && (minutes >= 1 && minutes <= 59)) {
+            if ((hours >= 1 && hours <= 9) && (minutes >= 1 && minutes <= 59) && (isAM || isPM)) {
+                formatted_time = formatted_time.substring(0, 1) + ":" + formatted_time.substring(1);
+            }
+            else if ((hours >= 1 && hours <= 23) && (minutes >= 1 && minutes <= 59) && !(isAM || isPM)) {
                 formatted_time = formatted_time.substring(0, 1) + ":" + formatted_time.substring(1);
             }
         }
         else if (formatted_time.length === 4) {
             hours = Number(formatted_time.substring(0, 2));
             minutes = Number(formatted_time.substring(2));
-            if ((hours >= 1 && hours <= 12) && (minutes >= 1 && minutes <= 59)) {
+            if ((hours >= 1 && hours <= 12) && (minutes >= 1 && minutes <= 59) && (isAM || isPM)) {
+                formatted_time = formatted_time.substring(0, 2) + ":" + formatted_time.substring(2);
+            }
+            else if ((hours >= 1 && hours <= 23) && (minutes >= 1 && minutes <= 59) && !(isAM || isPM)) {
                 formatted_time = formatted_time.substring(0, 2) + ":" + formatted_time.substring(2);
             }
         }
