@@ -59,7 +59,11 @@ $.fn.formatTime = function () {
     $(this).val(formatted_time);
 };
 
-$.fn.formatDate = function () {
+$.fn.formatDate = function (opts) {
+    opts = jQuery.extend({
+        interpret_year:20
+    }, opts);
+
     var date = $(this).val();
     var dateObj = {};
 
@@ -96,12 +100,19 @@ $.fn.formatDate = function () {
         var month = date.slice(0, i);
         var day = date.slice(i, j);
         var year = date.slice(j);
+        var displayYear = year;
+
+        if (year.length == 2) {
+            var currentYear = new Date().getFullYear();
+            currentYear = currentYear % 100;
+            displayYear = Number(year) > currentYear + opts.interpret_year ? "19" + year : "20" + year
+        }
 
         return {
             month:Number(month),
             day:Number(day),
             year:Number(year),
-            display:month + "/" + day + "/" + (year.length == 2 ? "20" + year : year)
+            display:month + "/" + day + "/" + displayYear
         };
     }
 };
